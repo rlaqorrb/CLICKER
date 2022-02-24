@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../CSS/ex.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <title>Document</title>
+</head>
+<body>
+  
+  <div class="container">
+    <h4 id="score" class="score-board">CL : 0 <span class="plus">+1</span></h4>
+    <div class="button">
+      <p>CLICK</p>
+    </div>
+    <p id="clper" class="click-per">현재 클릭당 점수 : 1</p>
+
+
+    <div class="footer">
+      <div>
+        <h5>background : blue</h5>
+        <p class="price" id="itf">가격 : 100CL</p>
+      </div>
+      <div>
+        <h5>CLICK 업그레이드</h5>
+        <p class="price" id="its">200CL</p>
+      </div>
+      <div>
+        <h5>N/A</h5>
+        <p class="price">N/A</p>
+      </div>
+      <div>
+        <h5>N/A</h5>
+        <p class="price">N/A</p>
+      </div>
+    </div>
+    <button onclick="
+    점수 = 점수 + 10000;
+    $('#score').html('CL : ' + 점수 + `<span class='plus'>+${클릭점수}</span>`);
+    ">CHEAT</button>
+  </div>
+
+  <div class="price-alert">
+    <h1>CL이 부족합니다.</h1>
+  </div>
+
+
+  <script>
+
+    var 점수 = 0;
+    var 클릭점수 = 1;
+    var audio = new Audio('../sound/coins-1.wav');
+    var 파란배경 = 0;
+
+    $('.button').click(function(){
+/*       audio.pause();
+      audio.play(); */
+      $('.button').addClass('size-up');
+      setTimeout(function(){
+      $('.button').removeClass('size-up');
+      },100)
+
+      점수 = 점수 + 클릭점수;
+
+      $('#score').html('CL : ' + 점수 + `<span class="plus">+${클릭점수}</span>`);
+      $('.plus').addClass('show');
+      setTimeout(function(){
+        $('.plus').removeClass('show');
+      },100);
+    });
+
+    $('#itf').click(function(){
+      if(점수 >= 100 && 파란배경 == 0){
+        점수 = 점수 - 100;
+        $('.button').css('background', 'blue');
+        $('#score').html('CL : ' + 점수 + `<span class="plus">+${클릭점수}</span>`);
+        파란배경 = 1;
+      } else if(점수 < 100){
+        $('.price-alert').addClass('show');
+        $('.price-alert').click(function(){
+          $('.price-alert').removeClass('show');
+        })
+      }
+    })
+
+
+    $('#its').html(클릭점수*200+'CL');
+    $('#its').click(function(){
+      if(점수 >= 클릭점수*200){
+        점수 = 점수 - 클릭점수*200;
+        클릭점수 = 클릭점수 + 1
+        $('#score').html('CL : ' + 점수 + `<span class="plus">+${클릭점수}</span>`);
+        $('#clper').html('현재 클릭당 점수 : ' + 클릭점수)
+        $('#its').html(클릭점수*200+'CL');
+      } else if(점수 < 클릭점수*200){
+        $('.price-alert').addClass('show');
+        $('.price-alert').click(function(){
+          $('.price-alert').removeClass('show');
+        })
+      }
+    })
+
+  </script>
+
+</body>
+</html>
